@@ -1,17 +1,24 @@
 #!/bin/bash
 
 # interface to use
-interface='wlp3s0'
+
+interface='mgmt0'
 
 # server ip configs
-server_id=`ifconfig $interface | grep 'inet[^6]' | awk '{print $2}'`
-netmask=`ifconfig $interface | grep 'netmask' | awk '{print $4}'`
-gateway=`route -n | grep $interface | grep UG | awk '{ print $2}'`
-broadcast=`ifconfig $interface | grep 'broadcast' | awk '{print $6}'`
+#server_id=`ifconfig $interface | grep 'inet[^6]' | awk '{print $2}'`
+#netmask=`ifconfig $interface | grep 'netmask' | awk '{print $4}'`
+#gateway=`route -n | grep $interface | grep UG | awk '{ print $2}'`
+#broadcast=`ifconfig $interface | grep 'broadcast' | awk '{print $6}'`
+
+netmask=255.255.255.0
+gateway=100.100.1.1
+broadcast=100.100.1.255
+server_id=100.100.1.200
+
 
 # address pool
-first='192.168.1.20'
-last='192.168.1.25'
+first='100.100.1.20'
+last='100.100.1.25'
 
 # DHCP options (timers, in seconds)
 pending_time=30

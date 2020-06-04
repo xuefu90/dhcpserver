@@ -236,11 +236,24 @@ fill_dhcp_reply (dhcp_msg *request, dhcp_msg *reply,
     server_id_opt.len = 4;
     memcpy(server_id_opt.data, &pool.server_id, sizeof(pool.server_id));
     append_option(&reply->opts, &server_id_opt);
-    
+
+    dhcp_option *opt = search_option(&pool.options, RENEWAL_T1_TIME_VALUE);
+    if(opt != NULL) {
+        append_option(&reply->opts, opt);
+    }
+
+    dhcp_option *opt1 = search_option(&pool.options, REBINDING_T2_TIME_VALUE);
+    if(opt != NULL)
+        append_option(&reply->opts, opt1);
+
+    dhcp_option *opt2 = search_option(&pool.options, IP_ADDRESS_LEASE_TIME);
+    if(opt != NULL)
+        append_option(&reply->opts, opt2);
+
     if(binding != NULL) {
 	reply->hdr.yiaddr = binding->address;
     }
-    
+
     if (type != DHCP_NAK) {
 	dhcp_option *requested_opts = search_option(&request->opts, PARAMETER_REQUEST_LIST);
 
